@@ -31,9 +31,9 @@ void ADXL345::print(){
   
   Serial.print("Accelerometer: ");
   Serial.print(x);
-  Serial.print(" , ");
+  Serial.print(",");
   Serial.print(y);
-  Serial.print(" , ");
+  Serial.print(",");
   Serial.print(z);
   Serial.println();
 }

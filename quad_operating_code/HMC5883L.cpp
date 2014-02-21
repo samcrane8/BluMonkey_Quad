@@ -27,9 +27,11 @@ void HMC5883L::print(){
   int y = buffer[1];
   int z = buffer[2];
   
+  Serial.print("Magneto: ");
   Serial.print(x);
-  Serial.print(" , ");
+  Serial.print(",");
   Serial.print(y);
-  Serial.print(" , ");
+  Serial.print(",");
   Serial.print(z);
+  Serial.println();
 }

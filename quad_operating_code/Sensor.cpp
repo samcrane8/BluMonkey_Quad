@@ -4,7 +4,6 @@
 #include "Arduino.h"
 
 Sensor::Sensor(byte address){
-  Serial.println("Sensor initialized at address" + address);
   this->address = address;
 }
 

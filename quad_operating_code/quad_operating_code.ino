@@ -15,7 +15,6 @@ void setup(){
   magneto->init();
   
   Serial.begin(57000);
-  Serial.print("init");
 }
 
 void loop(){

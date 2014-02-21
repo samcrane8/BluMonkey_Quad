@@ -31,9 +31,9 @@ void ITG3200::print(){
 
   Serial.print("Gyro: ");
   Serial.print(x);
-  Serial.print(" , ");
+  Serial.print(",");
   Serial.print(y);
-  Serial.print(" , ");
+  Serial.print(",");
   Serial.print(z);
   Serial.println();
 }
