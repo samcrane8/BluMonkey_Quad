@@ -24,7 +24,7 @@ void setup(){
 }
 
 void draw(){
-  if (millis() - lastTime > 5){
+  if (millis() - lastTime > 10){
     background(0);
     lastTime = millis(); 
     getData();
@@ -33,7 +33,7 @@ void draw(){
     rotateY(y_rot);
     rotateX(x_rot);
     fill(150,0,0);
-    box(100);
+    box(.35*width,.20*width,.15*width);
     popMatrix();
   }
   
@@ -45,27 +45,30 @@ void getData(){
     if (s == null) return;
     Scanner sc;
     if (s.contains("Accelerometer: ")){
-      s = s.replace("Accelerometer: ","");    
+      s = s.replace("Accelerometer: ","");
       sc = new Scanner(s);
-      sc.useDelimiter(",");
+      sc.useDelimiter("[, \n]");
       int x = Integer.parseInt(sc.next());
       int y = Integer.parseInt(sc.next());
-      x_rot = 20.0f*x;
-      y_rot = 20.0f*y;
-      System.out.println(x+","+y);
-    }  //else if (s.contains("Gyro: ")){
-//      s = s.replace("Gyro: ","");    
-//      sc = new Scanner(s);
-//      sc.useDelimiter(",");
-//      int x = Integer.parseInt(sc.next());
-//      int y = Integer.parseInt(sc.next());
-//      int z = Integer.parseInt(sc.next());
-//    } else if (s.contains("Magneto: ")){
-//      s = s.replace("Magneto: ","");    
-//      sc = new Scanner(s);
-//      sc.useDelimiter(",");
-//      int x = Integer.parseInt(sc.next());
-//      int y = Integer.parseInt(sc.next());
-//      int z = Integer.parseInt(sc.next());
-//    }
+      int z = Integer.parseInt(sc.next());
+      System.out.println("Accel: "+x+","+y+","+z);
+    } 
+    else if (s.contains("Gyro: ")){
+      s = s.replace("Gyro: ","");    
+      sc = new Scanner(s);
+      sc.useDelimiter("[, \n]");
+      int x = Integer.parseInt(sc.next());
+      int y = Integer.parseInt(sc.next());
+      int z = Integer.parseInt(sc.next());
+      System.out.println("Gyro: "+x+","+y+","+z);
+    } else if (s.contains("Magneto: ")){
+      s = s.replace("Magneto: ","");    
+      sc = new Scanner(s);
+      sc.useDelimiter("[, \n]");
+      int x = Integer.parseInt(sc.next());
+      int y = Integer.parseInt(sc.next());
+      int z = Integer.parseInt(sc.next());
+      x_rot = .01f*x;
+      System.out.println("Mag: " + x+","+y+","+z);
+    }
 }

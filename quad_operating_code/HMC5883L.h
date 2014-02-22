@@ -9,6 +9,9 @@ class HMC5883L : public Sensor{
      void init();
      void read();
      void print();
+     int getX();
+     int getY();
+     int getZ();
   protected:
      static const char DATA_REG = 0x03;
      static const char MEASURE_MODE_REG = 0x02;

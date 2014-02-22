@@ -15,6 +15,10 @@ void ADXL345::init(){
   writeI2C(POWER_CTL, 0x08);
 }
 
+int ADXL345::getX(){ return buffer[0]; }
+int ADXL345::getY(){ return buffer[1]; }
+int ADXL345::getZ(){ return buffer[2]; }
+
 void ADXL345::read(){
   byte bytes[6];
   memset(bytes,0,6);
@@ -35,7 +39,7 @@ void ADXL345::print(){
   Serial.print(y);
   Serial.print(",");
   Serial.print(z);
-  Serial.println();
+  Serial.println(" ");
 }
 
 

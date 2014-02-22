@@ -17,12 +17,13 @@ void setup(){
   Serial.begin(57000);
 }
 
+int x = 0;
+
 void loop(){
   accel->read();
-  accel->print();
   gyro->read();
-  gyro->print();
-  magneto->read();
-  magneto->print();
-  delay(500); // 2Hz
+  x += .1*(gyro->getX()*0.98)+.01*(0.02*accel->getX());
+  Serial.print(x);
+  Serial.println(" ");
+  delay(100); // 10Hz
 }

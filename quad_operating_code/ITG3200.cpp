@@ -24,6 +24,10 @@ void ITG3200::read(){
   }
 }
 
+int ITG3200::getX(){ return buffer[0]; }
+int ITG3200::getY(){ return buffer[1]; }
+int ITG3200::getZ(){ return buffer[2]; }
+
 void ITG3200::print(){
   int x = buffer[0]; 
   int y = buffer[1];
@@ -35,6 +39,6 @@ void ITG3200::print(){
   Serial.print(y);
   Serial.print(",");
   Serial.print(z);
-  Serial.println();
+  Serial.println(" ");
 }
 
