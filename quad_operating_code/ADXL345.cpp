@@ -13,11 +13,11 @@ void ADXL345::init(){
   writeI2C(DATA_FORMAT, 0x01);
   //put into measurement mode.
   writeI2C(POWER_CTL, 0x08);
+  
+  zero[0] = -28;
+  zero[1] = 6;
+  zero[2] = 131;
 }
-
-int ADXL345::getX(){ return buffer[0]; }
-int ADXL345::getY(){ return buffer[1]; }
-int ADXL345::getZ(){ return buffer[2]; }
 
 void ADXL345::read(){
   byte bytes[6];
@@ -28,17 +28,33 @@ void ADXL345::read(){
      buffer[i] = (((int)bytes[2*i+1]) << 8) + (int)bytes[2*i];
 }
 
+double ADXL345::getX(){
+  double x = (double)buffer[0] - zero[0];
+  double z = (double)buffer[2] - zero[2];
+  double angle = (atan2(x,z)+PI)*RAD_TO_DEG;
+  return angle;
+}
+
+double ADXL345::getY(){
+  double y = (double)buffer[1] - zero[1];
+  double z = (double)buffer[2] - zero[2];
+  double angle = (atan2(y,z)+PI)*RAD_TO_DEG;
+  return angle;
+}
+
+double ADXL345::getZ(){
+  double z = (double)buffer[2] - zero[2];
+  double x = (double)buffer[0] - zero[0];
+  return (atan2(z,x)+PI)*RAD_TO_DEG; 
+}
+
 void ADXL345::print(){
-  int x = buffer[0]; 
-  int y = buffer[1];
-  int z = buffer[2];
-  
   Serial.print("Accelerometer: ");
-  Serial.print(x);
+  Serial.print(getX());
   Serial.print(",");
-  Serial.print(y);
+  Serial.print(getY());
   Serial.print(",");
-  Serial.print(z);
+  Serial.print(getZ());
   Serial.println(" ");
 }
 

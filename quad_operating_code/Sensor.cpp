@@ -7,6 +7,14 @@ Sensor::Sensor(byte address){
   this->address = address;
 }
 
+double Sensor::getX(){ return getAngle(0); }
+double Sensor::getY(){ return getAngle(1); }
+double Sensor::getZ(){ return getAngle(2); }
+
+double Sensor::getAngle(int i){
+  int axis = buffer[i];
+  return axis;  
+}
 
 void Sensor::readI2C(byte reg, byte data[], byte length){
   
@@ -31,3 +39,4 @@ void Sensor::writeI2C(byte reg, byte val){
   Wire.write(val);                 // send value to write
   Wire.endTransmission(); 
 }
+

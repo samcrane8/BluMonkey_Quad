@@ -10,13 +10,16 @@ class ADXL345 : public Sensor{
      void init();
      void read();
      void print();
-     int getX();
-     int getY();
-     int getZ();
+     double getX();
+     double getY();
+     double getZ();  
+     double zero[3];
   private:
      static const char DATA_FORMAT = 0x31;
      static const char POWER_CTL = 0x2D;
      static const char DATA_REG = 0x32; // starting point of the data.
+     
 };
 
 #endif // ADXL345_H
+

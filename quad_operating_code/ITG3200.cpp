@@ -6,11 +6,23 @@ ITG3200::ITG3200()
 :
 Sensor(0xD0 >> 1)
 {
-
+  
 }
 
 void ITG3200::init(){
   writeI2C(DLPF_FS, FULLSCALE | _42HZ);
+  
+//  int sampleLimit = 10;
+//  for (int i = 0; i < sampleLimit; i++){
+//   read();
+//   zero[0] += buffer[0];
+//   zero[1] += buffer[1];
+//   zero[2] += buffer[2];
+//   delay(100);
+//  }
+//  zero[0] /= sampleLimit;
+//  zero[1] /= sampleLimit;
+//  zero[2] /= sampleLimit;
 }
 
 void ITG3200::read(){
@@ -24,21 +36,22 @@ void ITG3200::read(){
   }
 }
 
-int ITG3200::getX(){ return buffer[0]; }
-int ITG3200::getY(){ return buffer[1]; }
-int ITG3200::getZ(){ return buffer[2]; }
-
-void ITG3200::print(){
-  int x = buffer[0]; 
-  int y = buffer[1];
-  int z = buffer[2];
-
-  Serial.print("Gyro: ");
-  Serial.print(x);
-  Serial.print(",");
-  Serial.print(y);
-  Serial.print(",");
-  Serial.print(z);
-  Serial.println(" ");
+/**
+* Outputs as degrees/second.
+*/
+double ITG3200::getAxis(int i){
+  double axis = ((double)buffer[i] - zero[i]);
+  return axis;
 }
+
+double ITG3200::getX(){
+  return getAxis(0); 
+}
+double ITG3200::getY(){
+  return getAxis(1); 
+}
+double ITG3200::getZ(){
+  return getAxis(2); 
+}
+
 

@@ -22,20 +22,14 @@ void HMC5883L::read(){
      buffer[i] = (((int)bytes[2*i]) << 8) + (int)bytes[2*i+1];
 }
 
-int HMC5883L::getX(){ return buffer[0]; }
-int HMC5883L::getY(){ return buffer[1]; }
-int HMC5883L::getZ(){ return buffer[2]; }
-
 void HMC5883L::print(){
-  int x = buffer[0];
-  int y = buffer[1];
-  int z = buffer[2];
   
   Serial.print("Magneto: ");
-  Serial.print(x);
+  Serial.print(getX());
   Serial.print(",");
-  Serial.print(y);
+  Serial.print(getY());
   Serial.print(",");
-  Serial.print(z);
+  Serial.print(getZ());
   Serial.println(" ");
 }
+
