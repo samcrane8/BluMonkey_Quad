@@ -12,9 +12,6 @@ class Sensor{
      virtual void init()= 0;
      virtual void read()= 0;
      virtual void print()= 0;
-     double getX();
-     double getY();
-     double getZ();
      int buffer[3];
      double getAngle(int i);
   protected:

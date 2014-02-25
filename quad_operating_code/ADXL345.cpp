@@ -16,7 +16,7 @@ void ADXL345::init(){
   
   zero[0] = -28;
   zero[1] = 6;
-  zero[2] = 131;
+  zero[2] = -20;
 }
 
 void ADXL345::read(){
@@ -29,23 +29,23 @@ void ADXL345::read(){
 }
 
 double ADXL345::getX(){
-  double x = (double)buffer[0] - zero[0];
+  double y = (double)buffer[1] - zero[1];
   double z = (double)buffer[2] - zero[2];
-  double angle = (atan2(x,z)+PI)*RAD_TO_DEG;
+  double angle = (atan2(-y,-z)+PI)*RAD_TO_DEG;
   return angle;
 }
 
 double ADXL345::getY(){
-  double y = (double)buffer[1] - zero[1];
+  double x = (double)buffer[0] - zero[0];
   double z = (double)buffer[2] - zero[2];
-  double angle = (atan2(y,z)+PI)*RAD_TO_DEG;
+  double angle = (atan2(-x,-z)+PI)*RAD_TO_DEG;
   return angle;
 }
 
 double ADXL345::getZ(){
-  double z = (double)buffer[2] - zero[2];
+  double y = (double)buffer[1] - zero[1];
   double x = (double)buffer[0] - zero[0];
-  return (atan2(z,x)+PI)*RAD_TO_DEG; 
+  return (atan2(-y,-x)+PI)*RAD_TO_DEG; 
 }
 
 void ADXL345::print(){

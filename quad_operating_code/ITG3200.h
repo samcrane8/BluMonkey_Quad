@@ -17,6 +17,8 @@ class ITG3200 : public Sensor{
      double getY();
      double getZ();
      double zero[3];
+     void get_zeros();
+     double lastVal[3];
   protected:
      static const char DATA_REG = 0x1D;
      static const char DLPF_FS = 0x16;

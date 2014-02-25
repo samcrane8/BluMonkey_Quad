@@ -24,12 +24,12 @@ void HMC5883L::read(){
 
 void HMC5883L::print(){
   
-  Serial.print("Magneto: ");
-  Serial.print(getX());
-  Serial.print(",");
-  Serial.print(getY());
-  Serial.print(",");
-  Serial.print(getZ());
-  Serial.println(" ");
+//  Serial.print("Magneto: ");
+//  Serial.print(getX());
+//  Serial.print(",");
+//  Serial.print(getY());
+//  Serial.print(",");
+//  Serial.print(getZ());
+//  Serial.println(" ");
 }
 

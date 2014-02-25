@@ -1,5 +1,5 @@
 
-
+ 
 import processing.serial.*;
 import java.io.IOException;
 
@@ -13,8 +13,8 @@ float x_rot = 0;
 float y_rot = 0;
 float z_rot = 0;
 
-int width = 425;
-int height = 425;
+int width = 800;
+int height = 800;
 void setup(){
   size(width,height,P3D);
   myPort = new Serial(this, Arduino.list()[0],57000);
@@ -30,9 +30,8 @@ void draw(){
     simpleData();
     pushMatrix();
     translate(width/2,height/2,0);
-    rotateY(radians(z_rot));
-    rotateX(radians(x_rot));
     rotateZ(radians(y_rot));
+    rotateX(radians(-x_rot));
     fill(150,0,0);
     box(.35*width,.30*width,.10*width);
     popMatrix();
@@ -48,10 +47,8 @@ void simpleData(){
   sc.useDelimiter("[, \n]");
   float x = Float.parseFloat(sc.next());
   float y = Float.parseFloat(sc.next());
-  float z = Float.parseFloat(sc.next()); 
   x_rot = x;
   y_rot = y;
-  z_rot = z;
 }
 
 void getData(){

@@ -2,6 +2,7 @@
 #include "ADXL345.h"
 #include "ITG3200.h"
 #include "HMC5883L.h"
+#include "FilterKalman.h"
 #include <Wire.h>
 
 ADXL345* accel = new ADXL345;
@@ -12,6 +13,9 @@ float yaw;
 float pitch;
 float roll;
 
+FilterKalman kalmanPitch;
+FilterKalman kalmanRoll;
+
 unsigned timer;
 
 void setup(){
@@ -21,15 +25,13 @@ void setup(){
   magneto->init();
   timer = micros();
   Serial.begin(57000);
-  
-  gyro->zero[0] = -50;
-  gyro->zero[1] = 95;
-  gyro->zero[2] = -42;
+  kalmanPitch.setAngle(180);
+  kalmanRoll.setAngle(180);
 }
 
-double gyro_X = 0;
-double gyro_Y = 0;
-double gyro_Z = -90;
+double gyro_roll = 0;
+double gyro_pitch = 0;
+double gyro_yaw = 0;
 
 void loop(){
   accel->read();
@@ -41,36 +43,46 @@ void loop(){
 //  Serial.print(",");
 //  Serial.print(accel->getZ());
 //  Serial.println(" ");
-  
   gyro->read();
+  double deltaTime = (micros()-timer)/1000000;
+  
+  double roll_vel = (gyro->getX() + gyro->lastVal[0])/2;
+  roll_vel *= 0.00086;
+  gyro_roll += roll_vel;
+  double pitch_vel = (gyro->getY()+gyro->lastVal[1])/2;
+  pitch_vel *= 0.00086;
+  gyro_pitch += pitch_vel;
+  
+//  Serial.print(accel->buffer[0]);
+//  Serial.print(",");
+//  Serial.print(accel->buffer[1]);
+//  Serial.print(",");
+//  Serial.print(accel->buffer[2]);
+//  Serial.println(" ");
+  
+  double acc_pitch = atan(accel->buffer[0]/sqrt(pow(accel->buffer[1],2) + pow(accel->buffer[2],2)))*RAD_TO_DEG;
 
-  gyro_X += gyro->getX()*.0069;
-  gyro_Y += gyro->getY()*.0069;
-  gyro_Z += gyro->getZ()*.0069;
+  double acc_roll = atan(accel->buffer[1]/sqrt(pow(accel->buffer[0],2) + pow(accel->buffer[2],2)))*RAD_TO_DEG;
+
   
-  double cX = (0.97)*gyro_X + (0.03)*accel->getX();
-  double cY = (0.97)*gyro_Y + (0.03)*accel->getY();
-  double cZ = (0.97)*gyro_Z + (0.03)*accel->getZ();
+  double c_roll= (0.97)*gyro_roll + (0.03)*acc_roll;
+  double c_pitch = (0.97)*gyro_pitch + (0.03)*acc_pitch;
   
-  Serial.print(cX);
-  Serial.print(",");
-  Serial.print(cY);
-  Serial.print(",");
-  Serial.print(cZ);
-  Serial.println(" ");
+  double k_roll = kalmanRoll.getAngle(acc_roll,gyro_roll,
+                                   (double)(micros() - timer));
+  double k_pitch = kalmanPitch.getAngle(acc_pitch,gyro_pitch,
+                                    (double)(micros()-timer));
   
 //  accel->print();
 //  
 //  Serial.print("Gyro: ");
-//  Serial.print(gyro_X);
-//  Serial.print(",");
-//  Serial.print(gyro_Y);
-//  Serial.print(",");
-//  Serial.print(gyro_Z);
-//  Serial.println(" ");
+  Serial.print(k_roll);
+  Serial.print(",");
+  Serial.print(k_pitch);
+  Serial.println(" ");
 //  
 //  magneto->print();
   
   timer = micros();
-  delay(100); // 100Hz
+  delay(10); // 100Hz
 }
