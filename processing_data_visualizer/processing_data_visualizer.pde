@@ -13,8 +13,8 @@ float x_rot = 0;
 float y_rot = 0;
 float z_rot = 0;
 
-int width = 400;
-int height = 400;
+int width = 800;
+int height = 800;
 void setup(){
   size(width,height,P3D);
   myPort = new Serial(this, Arduino.list()[0],57000);

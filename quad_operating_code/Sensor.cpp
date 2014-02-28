@@ -7,11 +7,6 @@ Sensor::Sensor(byte address){
   this->address = address;
 }
 
-double Sensor::getAngle(int i){
-  int axis = buffer[i];
-  return axis;  
-}
-
 void Sensor::readI2C(byte reg, byte data[], byte length){
   
   Wire.beginTransmission(address);

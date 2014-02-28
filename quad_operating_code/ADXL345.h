@@ -9,10 +9,6 @@ class ADXL345 : public Sensor{
      ADXL345();
      void init();
      void read();
-     void print();
-     double getX();
-     double getY();
-     double getZ();  
      double zero[3];
   private:
      static const char DATA_FORMAT = 0x31;

@@ -73,8 +73,8 @@ void loop(){
   double k_pitch = kalmanPitch.getAngle(acc_pitch,gyro_pitch,
                                     (double)(micros()-timer));
   
-//  if ( abs(gyro_roll - k_roll) > 25) gyro_roll = k_roll;
-//  if ( abs(gyro_pitch - k_pitch) > 25) gyro_pitch = k_pitch;
+  if ( abs(gyro_roll - k_roll) > 25) gyro_roll = k_roll;
+  if ( abs(gyro_pitch - k_pitch) > 25) gyro_pitch = k_pitch;
   
 //  accel->print();
 
