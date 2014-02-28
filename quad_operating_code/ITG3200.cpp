@@ -12,19 +12,19 @@ Sensor(0xD0 >> 1)
 void ITG3200::init(){
   writeI2C(DLPF_FS, FULLSCALE | _42HZ);
   
-   zero[0] = -60;
-   zero[1] = 94;
-   for (int i =0; i < 3; i++) lastVal[i] = 0;
+   zero[0] = -50;
+   zero[1] = 92;
+//   for (int i =0; i < 3; i++) lastVal[i] = 0;
+//   get_zeros();
 }
 
 void ITG3200::get_zeros(){
-   int sampleLimit = 10;
+   int sampleLimit = 30;
   for (int i = 0; i < sampleLimit; i++){
    read();
    zero[0] += (double)buffer[0];
    zero[1] += (double)buffer[1];
    zero[2] += (double)buffer[2];
-   delay(100);
   }
   zero[0] /= sampleLimit;
   zero[1] /= sampleLimit;
@@ -47,7 +47,7 @@ void ITG3200::read(){
 * Outputs as degrees/second.
 */
 double ITG3200::getAxis(int i){
-  double axis = ((double)buffer[i] - zero[i]);
+  double axis = (double)(buffer[i] - zero[i]);
   return axis;
 }
 

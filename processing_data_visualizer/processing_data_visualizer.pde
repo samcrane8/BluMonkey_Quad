@@ -13,8 +13,8 @@ float x_rot = 0;
 float y_rot = 0;
 float z_rot = 0;
 
-int width = 800;
-int height = 800;
+int width = 400;
+int height = 400;
 void setup(){
   size(width,height,P3D);
   myPort = new Serial(this, Arduino.list()[0],57000);
@@ -31,9 +31,9 @@ void draw(){
     pushMatrix();
     translate(width/2,height/2,0);
     rotateZ(radians(y_rot));
-    rotateX(radians(-x_rot));
+    rotateX(radians(x_rot));
     fill(150,0,0);
-    box(.35*width,.30*width,.10*width);
+    box(.35*width,.10*width,.30*width);
     popMatrix();
   }
   
@@ -45,10 +45,13 @@ void simpleData(){
   if (s == null) return;
   Scanner sc = new Scanner(s);
   sc.useDelimiter("[, \n]");
+  try{
   float x = Float.parseFloat(sc.next());
   float y = Float.parseFloat(sc.next());
   x_rot = x;
   y_rot = y;
+  } catch (NumberFormatException nfe) {}
+
 }
 
 void getData(){

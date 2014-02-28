@@ -14,9 +14,22 @@ void ADXL345::init(){
   //put into measurement mode.
   writeI2C(POWER_CTL, 0x08);
   
-  zero[0] = -28;
-  zero[1] = 6;
-  zero[2] = -20;
+//  get_zeros();
+}
+
+void ADXL345::get_zeros(){
+  
+  int sum[2];
+  int ssize = 40; //sample size.
+  
+  for (int i = 0; i < ssize; i++){
+    for (int j = 0; j < 2; j++){
+      sum[j] += buffer[j]; 
+    }
+  }
+  for (int j = 0; j < 2; j++){
+    zero[j] = sum[j] / ssize;
+  }
 }
 
 void ADXL345::read(){
@@ -29,22 +42,22 @@ void ADXL345::read(){
 }
 
 double ADXL345::getX(){
-  double y = (double)buffer[1] - zero[1];
-  double z = (double)buffer[2] - zero[2];
+  double y = (double)(buffer[1] - zero[1]);
+  double z = (double)(buffer[2] - zero[2]);
   double angle = (atan2(-y,-z)+PI)*RAD_TO_DEG;
   return angle;
 }
 
 double ADXL345::getY(){
-  double x = (double)buffer[0] - zero[0];
-  double z = (double)buffer[2] - zero[2];
+  double x = (double)(buffer[0] - zero[0]);
+  double z = (double)(buffer[2] - zero[2]);
   double angle = (atan2(-x,-z)+PI)*RAD_TO_DEG;
   return angle;
 }
 
 double ADXL345::getZ(){
-  double y = (double)buffer[1] - zero[1];
-  double x = (double)buffer[0] - zero[0];
+  double y = (double)(buffer[1] - zero[1]);
+  double x = (double)(buffer[0] - zero[0]);
   return (atan2(-y,-x)+PI)*RAD_TO_DEG; 
 }
 
