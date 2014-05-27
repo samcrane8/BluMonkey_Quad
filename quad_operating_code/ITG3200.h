@@ -30,3 +30,4 @@ class ITG3200 : public Sensor{
 };
 
 #endif //HMC5883L_H
+

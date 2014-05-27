@@ -17,7 +17,10 @@ int width = 800;
 int height = 800;
 void setup(){
   size(width,height,P3D);
-  myPort = new Serial(this, Arduino.list()[0],57000);
+  for (int i = 0; i < Arduino.list().length ; i++){
+    System.out.println(Arduino.list()[i]); 
+  }
+  myPort = new Serial(this, Arduino.list()[Arduino.list().length -1],57000);
   lastTime = millis();
   background(0);
 }
@@ -48,9 +51,12 @@ void simpleData(){
   try{
   float x = Float.parseFloat(sc.next());
   float y = Float.parseFloat(sc.next());
+  System.out.println(x + ", " + y);
   x_rot = x;
   y_rot = y;
-  } catch (NumberFormatException nfe) {}
+  } catch (NumberFormatException nfe) {
+    nfe.printStackTrace();
+  }
 
 }
 

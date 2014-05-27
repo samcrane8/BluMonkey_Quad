@@ -10,3 +10,4 @@ void Motor::set(float desired, float actual){
   int val = map(pid->get(desired,actual),0,1,0,255);
   analogWrite(a_pin,val);
 }
+

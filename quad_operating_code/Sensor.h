@@ -20,3 +20,4 @@ class Sensor{
 
 #endif // SENSOR_H
 
+

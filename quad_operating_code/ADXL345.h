@@ -19,3 +19,4 @@ class ADXL345 : public Sensor{
 
 #endif // ADXL345_H
 
+

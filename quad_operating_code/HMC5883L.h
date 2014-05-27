@@ -18,3 +18,4 @@ class HMC5883L : public Sensor{
 
 #endif //HMC5883L_H
 
+
